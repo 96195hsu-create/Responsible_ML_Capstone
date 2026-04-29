@@ -4,7 +4,7 @@ This project contains a Jupyter notebook for a Responsible ML capstone built on 
 
 ## Project Scope
 
-The notebook currently covers both the baseline modeling foundation and the first fairness-analysis extension:
+The notebook now covers the baseline modeling workflow plus Lecture 02, Lecture 03, and Lecture 04 extensions:
 
 - raw HMDA data inspection with DuckDB
 - filtering and parquet export
@@ -15,10 +15,11 @@ The notebook currently covers both the baseline modeling foundation and the firs
 - XGBoost main model
 - random forest second comparison model
 - model evaluation and model-comparison tables
+- Lecture 02 explainability analysis
 - Lecture 03 subgroup fairness diagnostics
-- intersectional subgroup analysis
+- Lecture 04 robustness, drift, sensitivity, and stress testing
 
-This notebook now serves as the working capstone notebook for baseline modeling plus the first round of fairness diagnostics. Later phases can continue to extend it with explainability, robustness, and reporting work.
+This notebook now serves as the working capstone notebook for baseline modeling, explainability, fairness analysis, and robustness auditing in one place.
 
 ## Files
 
@@ -190,6 +191,24 @@ The notebook now uses:
 
 The evaluation tables now report `accuracy`, `AUC`, `log-loss`, `precision`, and `recall`, along with a compact `FPR` summary and a three-model comparison table.
 
+## Lecture 02 Explainability Extension
+
+After the model-comparison section, the notebook includes a Lecture 02 explainability block built around the XGBoost main model.
+
+That section adds:
+
+- global SHAP summary analysis
+- a ranked SHAP feature-importance table
+- a local SHAP waterfall explanation for one denied case
+- a DiCE counterfactual example constrained to actionable financial features
+
+The explainability workflow keeps the emphasis on interpretation rather than model redesign:
+
+- SHAP is used to identify the most influential features in the fitted XGBoost pipeline
+- tract-level variables are explicitly flagged as possible demographic proxies during interpretation
+- the local explanation section shows how one specific denial prediction was formed
+- the counterfactual section asks what would need to change to flip a denial into an approval
+
 ## Lecture 03 Fairness Extension
 
 After the model-comparison section, the notebook now includes a Lecture 03 fairness-analysis block built around the XGBoost main model.
@@ -200,12 +219,12 @@ That section adds:
 - AIR analysis by `derived_sex` with `Male` as the reference group
 - AIR analysis by `derived_ethnicity` with `Not Hispanic or Latino` as the reference group
 - subgroup error-rate tables by race, sex, and ethnicity
+- subgroup SMD tables based on predicted probabilities
 - intersectional subgroup analysis for `race × sex`
 
 The AIR sections use:
 
 - a manual subgroup-rate calculation
-- `solas_disparity` for pairwise adverse impact ratio summaries
 - the 4/5ths rule to flag groups with AIR below `0.80`
 
 The subgroup error-rate section reports:
@@ -218,6 +237,23 @@ for each protected-group breakdown on the held-out test set.
 
 The intersectional section constructs combined `race / sex` subgroup labels, filters out very small groups using `min_n=30`, and identifies the worst-performing subgroup relative to `White / Male`.
 
+## Lecture 04 Robustness Extension
+
+The notebook now also includes the Lecture 04 audit block from `L4_hmda_responsible_ml_capstone.ipynb`.
+
+That section adds:
+
+- setup for a shared audit workflow using the trained XGBoost model
+- generalization and generalization-gap analysis
+- input distribution shift checks using PSI, KS, and MMD-style summaries
+- output / performance drift checks across ordered buckets
+- slice-based robustness diagnostics
+- sensitivity analysis and potential spurious-correlation review
+- stress testing under macro and credit-style scenarios
+- a consolidated markdown-style audit summary
+
+The Lecture 04 section is designed to reuse the same trained model and test split from earlier notebook stages, so the audit remains directly tied to the actual modeling workflow rather than a separate experiment.
+
 ## Current Notebook Status
 
 The notebook is now broader than a simple baseline:
@@ -225,7 +261,9 @@ The notebook is now broader than a simple baseline:
 - it builds the filtered HMDA modeling dataset
 - trains and compares three models
 - evaluates them with compact performance tables
+- runs Lecture 02 explainability diagnostics on the XGBoost model
 - carries protected-group columns forward for fairness analysis
-- runs Lecture 03 subgroup and intersectional diagnostics on the XGBoost predictions
+- runs Lecture 03 subgroup, SMD, and intersectional diagnostics on the XGBoost predictions
+- runs the Lecture 04 robustness and audit workflow on the same trained model
 
 This notebook is still not positioned as a decision-ready system. It should be treated as a capstone workflow that supports later explainability, robustness, and deeper responsible-ML analysis. If you want refreshed full-dataset metrics or fairness outputs after future edits, rerun the notebook from top to bottom.
