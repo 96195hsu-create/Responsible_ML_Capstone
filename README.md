@@ -4,7 +4,7 @@ This project contains a Jupyter notebook for a Responsible ML capstone built on 
 
 ## Project Scope
 
-The notebook now covers the baseline modeling workflow plus Lecture 02, Lecture 03, and Lecture 04 extensions:
+The notebook now covers the baseline modeling workflow plus Lecture 02 through Lecture 05 extensions:
 
 - raw HMDA data inspection with DuckDB
 - filtering and parquet export
@@ -18,8 +18,9 @@ The notebook now covers the baseline modeling workflow plus Lecture 02, Lecture 
 - Lecture 02 explainability analysis
 - Lecture 03 subgroup fairness diagnostics
 - Lecture 04 robustness, drift, sensitivity, and stress testing
+- Lecture 05 security and abuse-pathway analysis
 
-This notebook now serves as the working capstone notebook for baseline modeling, explainability, fairness analysis, and robustness auditing in one place.
+This notebook now serves as the working capstone notebook for baseline modeling, explainability, fairness analysis, robustness auditing, and security-risk framing in one place.
 
 ## Files
 
@@ -254,6 +255,25 @@ That section adds:
 
 The Lecture 04 section is designed to reuse the same trained model and test split from earlier notebook stages, so the audit remains directly tied to the actual modeling workflow rather than a separate experiment.
 
+## Lecture 05 Security Extension
+
+The notebook now includes a final Lecture 05 section focused on security and abuse pathways for the deployed XGBoost approval model.
+
+That section adds a structured security-risk assessment for four scenarios:
+
+- applicant gaming through repeated probing
+- input manipulation of influential fields
+- data poisoning in the training pipeline
+- model extraction through large-scale querying
+
+For each scenario, the notebook explicitly documents:
+
+- the attack mechanism
+- the likely impact on model behavior, lending outcomes, and governance risk
+- a qualitative severity assessment
+
+This final section connects the earlier explainability and robustness findings to deployment risk. In particular, it uses the fact that SHAP, counterfactual, and stress-testing results already revealed the model's most sensitive levers, then asks how an adversary could exploit those same levers after deployment.
+
 ## Current Notebook Status
 
 The notebook is now broader than a simple baseline:
@@ -265,5 +285,6 @@ The notebook is now broader than a simple baseline:
 - carries protected-group columns forward for fairness analysis
 - runs Lecture 03 subgroup, SMD, and intersectional diagnostics on the XGBoost predictions
 - runs the Lecture 04 robustness and audit workflow on the same trained model
+- concludes with a Lecture 05 security and abuse-risk assessment for deployment
 
-This notebook is still not positioned as a decision-ready system. It should be treated as a capstone workflow that supports later explainability, robustness, and deeper responsible-ML analysis. If you want refreshed full-dataset metrics or fairness outputs after future edits, rerun the notebook from top to bottom.
+This notebook is still not positioned as a decision-ready system. It should be treated as a capstone workflow that supports explainability, fairness, robustness, and security analysis around a credit-decision model. If you want refreshed full-dataset metrics or updated downstream outputs after future edits, rerun the notebook from top to bottom.
