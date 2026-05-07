@@ -158,7 +158,7 @@ Protected-group columns retained for subgroup diagnostics but not used for basel
 - `derived_sex`
 - `derived_ethnicity`
 
-During DuckDB filtering, the notebook keeps only rows where `derived_sex` is `Male` or `Female`. This means the filtered dataset size reported in the notebook matches the rows that are actually carried into modeling and sex-based subgroup evaluation.
+During DuckDB filtering, the notebook keeps only rows where `derived_sex` is `Male` or `Female`, removes `Free Form Text Only` and `Race Not Available` from `derived_race`, and removes `Free Form Text Only` from `derived_ethnicity`. This means the filtered dataset size reported in the notebook matches the rows that are actually carried into modeling and into the downstream race, sex, ethnicity, and intersectional subgroup evaluations.
 
 ## Why These Features Were Used
 
